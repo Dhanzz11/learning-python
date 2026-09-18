@@ -6,7 +6,7 @@ def port_scanner(target, port): #function scanner
         hasil = sock.connect_ex((target, port))   # ini tetap pakai connect_ex, method asli
         sock.close()
         if hasil == 0:
-            return f"Port {port} TERBUKA"
+            return f"Port {port} TERBUKA\n"
         else:
             return f"port {port} TERTUTUP"
 
