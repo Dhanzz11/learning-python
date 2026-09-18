@@ -1,21 +1,21 @@
 import socket
 import threading
 
-lock = threading.Lock()
+
 
 def port_scanner(target, port): #function scanner
-
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        hasil = sock.connect_ex((target, port))   # ini tetap pakai connect_ex, method asli
-        sock.close()
-        if hasil == 0:
-           status = f"Port {port} TERBUKA"
-           with lock:
-               print(status)
-        else:
-            status = f"port {port} TERTUTUP"
-            with lock:
-                print(status)
+    lock = threading.Lock()
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    hasil = sock.connect_ex((target, port))   # ini tetap pakai connect_ex, method asli
+    sock.close()
+    if hasil == 0:
+        status = f"Port {port} TERBUKA"
+        with lock:
+           print(status)
+    else:
+        status = f"port {port} TERTUTUP"
+        with lock:
+            print(status)
 
 def simpan_scanner (port, hasil): #function pencatat
     if "TERBUKA" in hasil:
