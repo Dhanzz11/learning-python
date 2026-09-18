@@ -1,1 +1,4 @@
-nama: kalung femboy  harga: 20000 stok: 5
+
+nama: Susu Dingin harga: 20000 stok: 1
+nama: Susu Menengah Pertama harga: 150000 stok: 0
+nama: Susu Menengah Atas harga: 500000 stok: 5
