@@ -15,14 +15,33 @@ def cek_stok_rendah(produk):
         if p ["stok"] < 5:
            print(f"{p['nama']} tersisa {p['stok']} item, segera pesan stok tambahan")
         else:
-           print("semua aman")
+           print("sisanya aman")
 
 
 def simpan_ke_file(produk):
+    produk_tersimpan = set()
+
+    # Baca data yang sudah ada
+    try:
+        with open("stock.txt", "r") as file:
+            for baris in file:
+                if baris.startswith("nama:"):
+                    nama = baris.split(" harga:")[0].replace("nama: ", "")
+                    produk_tersimpan.add(nama)
+    except FileNotFoundError:
+        pass
+
+    # Tambahkan produk yang belum ada
     with open("stock.txt", "a") as file:
         for p in produk:
-            file.write(f"nama: {p['nama']} harga: {p['harga']} stok: {p['stok']}\n")
-    with open ("stock.txt", "r") as file:
+            if p["nama"] not in produk_tersimpan:
+                file.write(
+                    f"nama: {p['nama']} harga: {p['harga']} stok: {p['stok']}\n"
+                )
+                produk_tersimpan.add(p["nama"])
+
+    # Tampilkan isi file
+    with open("stock.txt", "r") as file:
         isi_data = file.read()
         print(isi_data)
 
@@ -38,20 +57,16 @@ def main():
         print("3. Cek stok rendah")
         print("4. Simpan ke file")
         print("5. Keluar\n")
-        pilihan = input("Pilih menu: \n")
+        pilihan = input("Pilih menu: ")
 
         if pilihan == "1":
             tambah_produk(produk)
-            break
         elif pilihan == "2":
             tampilkan_produk(produk)
-            break
         elif pilihan == "3":
             cek_stok_rendah(produk)
-            break
         elif pilihan == "4":
             simpan_ke_file(produk)
-            break
         elif pilihan == "5":
             print("Alr, BYE MATE")
             break

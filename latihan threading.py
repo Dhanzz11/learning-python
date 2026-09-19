@@ -1,8 +1,6 @@
 import socket
 import threading
 
-
-
 def port_scanner(target, port): #function scanner
     lock = threading.Lock()
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
