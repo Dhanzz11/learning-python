@@ -1,0 +1,2 @@
+teks asli: Halo  hasil: Kdor mode: ENKRIPSI
+teks asli: Kdor  hasil: Halo mode: DEKRIPSI
