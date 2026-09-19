@@ -1,5 +1,5 @@
 def enkripsi(teks, geser):
-    huruf =""
+    huruf =" "
     hasil= ""
     for i in teks:
         if i.isupper():
@@ -66,7 +66,7 @@ def main():
             riwayat =lihat_riwayat()
             print(riwayat)
         elif pilihan == "4":
-            print("Okeh bsokyu\n")
+            print("Okeh boskyu\n")
             break
         else:
             print("Pilihan apo dio, mana ada\n")
