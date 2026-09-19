@@ -15,7 +15,7 @@ def cek_stok_rendah(produk):
         if p ["stok"] < 5:
            print(f"{p['nama']} tersisa {p['stok']} item, segera pesan stok tambahan")
         else:
-           print("semua aman")
+           print("sisanya aman")
 
 
 def simpan_ke_file(produk):
