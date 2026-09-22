@@ -8,12 +8,26 @@ def tulis_file(nama_file, isi):
         file.write (isi)
 
 def log_tool(nama_file, isi):
+    log_tersimpan = set()
+    #Mengecek data yang sudah ada
+    try:
+        with open ("LogTool.txt", "r") as file:
+            for baris in file:
+                if baris.startswith("Nama File:"):
+                    nama = baris.split(" isi:")[0].replace("Nama Flie: ", "")
+                    log_tersimpan.add(nama)
+    except FileNotFoundError:
+        pass
+
+    #Tambahkan data log yang belum ada
     with open ("LogTool.txt", "a") as file:
-       for p in nama_file:
-           file.write(f"Nama File: {nama_file} isi: {isi}\n")
+        for p in nama_file:
+            if p["nama_file"] not in log_tersimpan:
+                file.write(f"Nama File: {nama_file} isi: {isi}\n")
+                log_tersimpan.add(nama_file)
+
     with open ("LogTool.txt", "r") as file:
-        isi_log = file.read()
-        return isi_log
+        file.read()
 
 def tulis_dekrip(nama_file, isi):
     with open ("HasilKembali.txt", "a") as file:
