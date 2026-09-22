@@ -4,15 +4,18 @@ def baca_file(nama_file):
         return isi_file
 
 def tulis_file(nama_file, isi):
-    with open ("fileHasil.txt", "w") as file:
+    with open (nama_file, "w") as file:
         file.write (isi)
 
 def log_tool(nama_file, isi):
-    with open ("logTool.txt", "w") as file:
+    with open ("logTool.txt", "a") as file:
         file.write (f"Nama File: {nama_file} isi: {isi}")
+    with open ("logTool.txt", "r") as file:
+        isi_log = file.read()
+        print(isi_log)
 
 def tulis_dekrip(nama_file, isi):
-    with open ("hasilKembali.txt", "w") as file:
+    with open (nama_file, "w") as file:
         file.write (isi)
 
 def enkripsi(teks, geser):
@@ -73,7 +76,8 @@ def main():
                 hasil = dekripsi(teks, balikan)
                 tulis_dekrip(nama_file, hasil)
                 print(hasil)
-                riwayat_file.append({"nama_file": nama_file, "aksi": "DEKRIPSI"})
+                log = log_tool(nama_file, hasil)
+                log.append({"Nama file": nama_file, "isi": hasil})
             elif pilih == "B":
                 for nomor, r in enumerate(riwayat_file, start=1):
                     print(f"{nomor}. {r['nama_file']} ({r['aksi']})")
@@ -82,15 +86,18 @@ def main():
                     balikan = 3
                     teks = baca_file(nama_file)
                     hasil = dekripsi(teks, balikan)
+                    tulis_dekrip(nama_file, hasil)
                     print(hasil)
+                    log = log_tool(nama_file, hasil)
+                    log.append({"Nama file": nama_file, "isi": hasil})
+                    break
             else:
                 print("Ketik yang betul puq")
+
         elif pilihan == "3":
             print("Abcd dia yang buka, alr catch u later")
             break
         else:
             print("Ketik yang bener su")
-    hasil_kembali = log_tool("logTool.txt", hasil )
-    hasil_kembali.append({"Nama File:": nama_file, "isi": hasil})
 
 main()
