@@ -7,34 +7,15 @@ def tulis_file(nama_file, isi):
     with open (nama_file, "w") as file:
         file.write (isi)
 
-def log_tool(nama_file, isi):
-    log_tersimpan = set()
-    #Mengecek data yang sudah ada
-    try:
-        with open ("LogTool.txt", "r") as file:
-            for baris in file:
-                if baris.startswith("Nama File:"):
-                    nama = baris.split(" isi:")[0].replace("Nama Flie: ", "")
-                    log_tersimpan.add(nama)
-    except FileNotFoundError:
-        pass
-
-    #Tambahkan data log yang belum ada
-    with open ("LogTool.txt", "a") as file:
-        for p in nama_file:
-            if p["nama_file"] not in log_tersimpan:
-                file.write(f"Nama File: {nama_file} isi: {isi}\n")
-                log_tersimpan.add(nama_file)
-
-    with open ("LogTool.txt", "r") as file:
-        file.read()
-
 def tulis_dekrip(nama_file, isi):
     with open ("HasilKembali.txt", "a") as file:
-        for x in nama_file:
-            file.write(f"Nama file: {nama_file} isi: {isi}\n")
+        file.write(f"Nama file: {nama_file} isi: {isi}\n")
     with open ("HasilKembali.txt", "r") as file:
         file.read()
+
+def log_tool(nama_file, aksi, isi):
+    with open ("LogTool.txt", "a") as file:
+        file.write(f"Nama File: {nama_file} || mode: {aksi} || hasil: {isi}\n")
 
 def enkripsi(teks, geser):
     hasil= ""
@@ -78,12 +59,13 @@ def main():
         if pilihan == "1":
             nama_file = input("Nama File: ")
             teks= baca_file(nama_file)
+            nama_hasil_enkripsi = "hasil " + nama_file
             geser = 3
             hasil = enkripsi(teks, geser)
-            tulis_file("fileHasil.txt", hasil)
+            tulis_file(nama_hasil_enkripsi, hasil)
             print(hasil)
-            #log_tool(nama_file, hasil)
-            riwayat_file.append({"nama_file": "fileHasil.txt", "aksi": "ENKRIPSI"})
+            log_tool(nama_file, "ENKRIPSI", hasil)
+            riwayat_file.append({"nama_file": nama_hasil_enkripsi, "aksi": "ENKRIPSI"})
         elif pilihan == "2":
             print("A. Dekripsi teks baru")
             print("B. Dekripsi teks enkripsi")
@@ -95,19 +77,18 @@ def main():
                 hasil = dekripsi(teks, balikan)
                 tulis_dekrip("HasilKembali.txt", hasil)
                 print(hasil)
-                #log_tool(nama_file, hasil)
+                log_tool(nama_file, "ENKRIPSI", hasil)
             elif pilih == "B":
                 for nomor, r in enumerate(riwayat_file, start=1):
                     print(f"{nomor}. {r['nama_file']} ({r['aksi']})")
-                    nomor_pilih = int(input("Pilih nomor file: "))
-                    nama_file = riwayat_file[nomor_pilih - 1]["nama_file"]
-                    balikan = 3
-                    teks = baca_file(nama_file)
-                    hasil = dekripsi(teks, balikan)
-                    tulis_dekrip("HasilKembali.txt", hasil)
-                    print(hasil)
-                    break
-                    
+                nomor_pilih = int(input("Pilih nomor file: "))
+                nama_file = riwayat_file[nomor_pilih - 1]["nama_file"]
+                balikan = 3
+                teks = baca_file(nama_file)
+                hasil = dekripsi(teks, balikan)
+                tulis_dekrip("HasilKembali.txt", hasil)
+                print(hasil)
+                log_tool(nama_file, "ENKRIPSI", hasil)
             else:
                 print("Ketik yang betul puq")
         elif pilihan == "3":
@@ -115,7 +96,5 @@ def main():
             break
         else:
             print("Ketik yang bener su")
-        
-        log_tool(nama_file, hasil)
 
 main()
