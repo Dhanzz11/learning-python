@@ -1,0 +1,4 @@
+Produk : kasur -- Rp3000000
+Produk : lemari -- Rp400000
+Produk : meja -- Rp2000000
+

@@ -1,1 +1,3 @@
-nama: Gula harga: 20000 stok: 11
+Produk : kasur -- Rp3000000 || Stok: 2
+Produk : lemari -- Rp400000 || Stok: 5
+Produk : meja -- Rp2000000 || Stok: 12

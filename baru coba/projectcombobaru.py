@@ -1,42 +1,52 @@
 ######################################################################################
-                                # toko section
+                                # produk section
 
-def tulisdatabase_toko(produk):
+def tulis_daftar(produk):
     daftar_produk = set()
     try:
-        with open("database_produk.txt", "r") as file:
+        with open("daftarProduk.txt", "r") as file:
             for baris in file:
                 nama = baris.split(" -- ")[0].replace("Produk: ", "")
                 daftar_produk.add(nama)
     except FileNotFoundError:
         pass
-
-    with open("database_produk.txt", "a") as file:
+    
+    with open("daftarProduk.txt", "a") as file:
         for p in produk:
-            if p["nama"] not in daftar_produk:
-                file.write(f"nama: {p['nama']} harga: {p['harga']} stok: {p['stok']}\n")
-                daftar_produk.add(p["nama"])
+            if p["Produk"] not in daftar_produk:
+                file.write(f"Produk : {p['nama']} -- Rp{p['harga']}\n")
+                daftar_produk.add(p["Produk"])
+
+def tulisdatabase_toko(produk):
+    for p in produk:
+        with open ("database_produk.txt", "a") as file:
+            file.write(f"Produk : {p['nama']} -- Rp{p['harga']}|| Stok: {p['stok']}\n")
 
 def bacadatabase_toko(produk):
-    with open (produk , "r") as file:
-        isi_produk = file.read()
-        print (isi_produk)
+    with open (produk, "r") as file:
+        isi = file.read()
+        print(isi)
+
+def bacadaftar_produk(produk):
+    with open ("database_produk.txt" , "r") as file:
+       daftar = file.read()
+       return eval(daftar)
 
 def edit_produk(produk):
     nama = input("Produk tambahan: ")
     harga = int(input("harga: "))
     stok = int(input("banyak stok produk: "))
-    produk_baru = {"nama": nama, "harga": harga, "stok": stok}
+    produk_baru = {"Produk" : nama, "harga" : harga, "Stok" : stok}
     produk.append(produk_baru)
 
 def cek_stok(produk):
     for p in produk:
-        if p["'stock"] < 10:
-            print(F"{p['nama']} tersisa {p['stok']} item, mohon dipesan stok tambahan")
-        elif p["'stock"]< 5:
-            print(F"{p['nama']} tersisa {p['stok']} item, segera pesan stock tambahan")
+        if p['stok'] < 10:
+            print(F"{p['Produk']} tersisa {p['Stok']} item, mohon dipesan stok tambahan")
+        elif p['stok']< 5:
+            print(F"{p['Produk']} tersisa {p['Stok']} item, segera pesan stock tambahan")
         else:
-            print(F"{p['nama']} masih {p['stok']} item, aman ae")
+            print(F"{p['Produk']} masih {p['Stok']} item, aman ae")
 
 def menu():
     produk = []
@@ -51,21 +61,27 @@ def menu():
         pilihan = input("Pilih Menu: ")
 
         if pilihan == "1":
-            bacadatabase_toko("database_produk.txt")
+            bacadaftar_produk(produk)
         elif pilihan == "2":
-            pass
+            cek = bacadaftar_produk(produk)
+            cek_stok(cek)
         elif pilihan == "3":
             edit_produk(produk)
-            tulisdatabase_toko(produk)
-            pass
+            bacadaftar_produk(produk)
+            tulis_daftar(produk)
         elif pilihan == "4":
             pass
         elif pilihan == "5":
-            pass
-        elif pilihan == "5":
-           pass
+            print("log Out?")
+            opsi = input("y/n ")
+            if opsi == "y":
+                break
+            elif opsi == "n":
+                pass
+            else:
+                print("????")
         else:
-            pass
+            print("invalid input")
 
 ####################################################################################
                                 # setting section
