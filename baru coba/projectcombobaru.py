@@ -9,9 +9,11 @@ def setting (password):
 
     if jumlah_Kriteria == 3:
         print(f"Password sudah diganti")
+        return True
     else:
         print("silahkan penuhi kriteria ini (password harus memiliki 8 karakter, huruf besar dan huruf kecil)")
-
+        return False
+    
 def data_password(password):
     with open ("datapw.txt", "w") as file:
         file.write(f"passwordLogin: {password}")
@@ -46,27 +48,46 @@ def bacadaftar_produk(produk):
     with open (produk , "r") as file:
        daftar = file.read()
        print(daftar)
-######################################################################################
-                                # cek stok and database section
 
-def tulisdatabase_toko(produk):
+
+def tulisdatastok(produk):
     for p in produk:
-        with open ("database_produk.txt", "a") as file:
+        with open ("datastokk.txt", "a") as file:
             file.write(f"Produk : {p['Produk']} -- Rp{p['harga']}|| Stok: {p['Stok']}\n")
+            
+######################################################################################
+                                # cek stok section
 
-def bacadatabase_toko(produk):
-    with open (produk, "r") as file:
-        isi = file.readline()
-    return isi
+def bacastok(nama_file):
+    daftar_stok = []
+    with open(nama_file, "r") as file:
+        for baris in file:
+            baris = baris.strip()
+            nama = baris.split(" -- ")[0].replace("Produk : ", "")
+            sisa = baris.split(" -- ")[1] 
+            harga = int(sisa.split("|| Stok: ")[0].replace("Rp", ""))
+            stok = int(sisa.split("|| Stok: ")[1])
+            
+            produk_baru = {"Produk": nama, "harga": harga, "Stok": stok}
+            daftar_stok.append(produk_baru)
+    return daftar_stok
     
 def cek_stok(produk):
     for p in produk:
         if p['Stok'] < 10:
-            print(F"{p['Produk']} tersisa {p['Stok']} item, mohon dipesan stok tambahan")
+            print(F"{p['Produk']} tersisa {p['Stok']} item, mohon dipesan stok tambahan\n")
         elif p['stok']< 5:
-            print(F"{p['Produk']} tersisa {p['Stok']} item, segera pesan stock tambahan")
+            print(F"{p['Produk']} tersisa {p['Stok']} item, segera pesan stock tambahan\n")
         else:
-            print(F"{p['Produk']} masih {p['Stok']} item, aman ae")
+            print(F"{p['Produk']} masih {p['Stok']} item, aman ae\n")
+
+######################################################################################
+                                # database section
+
+def tulisdatabase_toko(produk):
+    for p in produk:
+        with open ("database_produk.txt", "a") as file:
+            file.write(f" log ==> Produk : {p['Produk']} -- Rp{p['harga']}|| Stok: {p['Stok']}\n")
 
 ######################################################################################
                                 # menu section
@@ -86,11 +107,12 @@ def menu():
         if pilihan == "1":
             bacadaftar_produk("daftarProduk.txt")
         elif pilihan == "2":
-            cek = bacadatabase_toko("database_produk.txt")
+            cek = bacastok("datastok.txt")
             cek_stok(cek)
         elif pilihan == "3":
             edit_produk(produk)
             tulisdatabase_toko(produk)
+            tulisdatastok
             tulis_daftar(produk)
         elif pilihan == "4":
             print("==== SETTING ====")
@@ -98,8 +120,9 @@ def menu():
             x = input(" ")
             if x == "A":
                 password_Baru = input("password baru ")
-                setting(password_Baru)
-                data_password(password_Baru)
+                valid = setting(password_Baru)
+                if valid:
+                    data_password(password_Baru)
         elif pilihan == "5":
             print("log Out?")
             opsi = input("y/n ")
@@ -114,6 +137,7 @@ def menu():
 
 ####################################################################################
                                 # login section
+
 def data_pw(datapw):
     with open(datapw, "r") as file:
         for isi in file:
