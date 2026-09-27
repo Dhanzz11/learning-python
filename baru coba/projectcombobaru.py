@@ -52,11 +52,12 @@ def bacadaftar_produk(produk):
 def tulisdatabase_toko(produk):
     for p in produk:
         with open ("database_produk.txt", "a") as file:
-            file.write(f"Produk : {p['nama']} -- Rp{p['harga']}|| Stok: {p['stok']}\n")
+            file.write(f"Produk : {p['Produk']} -- Rp{p['harga']}|| Stok: {p['Stok']}\n")
 
 def bacadatabase_toko(produk):
     with open (produk, "r") as file:
-        file.read()
+        isi = file.readline()
+    return isi
     
 def cek_stok(produk):
     for p in produk:
@@ -85,7 +86,8 @@ def menu():
         if pilihan == "1":
             bacadaftar_produk("daftarProduk.txt")
         elif pilihan == "2":
-            pass
+            cek = bacadatabase_toko("database_produk.txt")
+            cek_stok(cek)
         elif pilihan == "3":
             edit_produk(produk)
             tulisdatabase_toko(produk)
