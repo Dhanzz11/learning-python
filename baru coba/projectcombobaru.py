@@ -1,5 +1,5 @@
 ######################################################################################
-                                # produk section
+                                # setting section
 
 def setting (password):
     kriteria1 = len(password) == 8
@@ -8,47 +8,16 @@ def setting (password):
     jumlah_Kriteria = sum([kriteria1, kriteria2, kriteria3])
 
     if jumlah_Kriteria == 3:
-        return "Password sudah diganti"
+        print(f"Password sudah diganti")
     else:
-        return "silahkan penuhi kriteria ini (password harus memiliki 8 karakter, huruf besar dan huruf kecil)"
+        print("silahkan penuhi kriteria ini (password harus memiliki 8 karakter, huruf besar dan huruf kecil)")
 
 def data_password(password):
     with open ("datapw.txt", "w") as file:
         file.write(f"passwordLogin: {password}")
 
 ######################################################################################
-                                # produk section5
-
-def tulis_daftar(produk):
-    daftar_produk = set()
-    try:
-        with open("daftarProduk.txt", "r") as file:
-            for baris in file:
-                nama = baris.split(" -- ")[0].replace("Produk: ", "")
-                daftar_produk.add(nama)
-    except FileNotFoundError:
-        pass
-    
-    with open("daftarProduk.txt", "a") as file:
-        for p in produk:
-            if p["Produk"] not in daftar_produk:
-                file.write(f"Produk : {p['nama']} -- Rp{p['harga']}\n")
-                daftar_produk.add(p["Produk"])
-
-def tulisdatabase_toko(produk):
-    for p in produk:
-        with open ("database_produk.txt", "a") as file:
-            file.write(f"Produk : {p['nama']} -- Rp{p['harga']}|| Stok: {p['stok']}\n")
-
-def bacadatabase_toko(produk):
-    with open (produk, "r") as file:
-        isi = file.read()
-        print(isi)
-
-def bacadaftar_produk(produk):
-    with open ("database_produk.txt" , "r") as file:
-       daftar = file.read()
-       return eval(daftar)
+                                # opsi 3 section
 
 def edit_produk(produk):
     nama = input("Produk tambahan: ")
@@ -57,14 +26,49 @@ def edit_produk(produk):
     produk_baru = {"Produk" : nama, "harga" : harga, "Stok" : stok}
     produk.append(produk_baru)
 
+def tulis_daftar(produk):
+    daftar_produk = set()
+    try:
+        with open("daftarProduk.txt", "r") as file:
+            for baris in file:
+                nama = baris.split(" -- ")[0].replace("Produk : ", "")
+                daftar_produk.add(nama)
+    except FileNotFoundError:
+        pass
+    
+    with open("daftarProduk.txt", "a") as file:
+        for p in produk:
+            if p["Produk"] not in daftar_produk:
+                file.write(f"Produk : {p['Produk']} -- Rp{p['harga']}\n")
+                daftar_produk.add(p['Produk'])
+
+def bacadaftar_produk(produk):
+    with open (produk , "r") as file:
+       daftar = file.read()
+       print(daftar)
+######################################################################################
+                                # cek stok and database section
+
+def tulisdatabase_toko(produk):
+    for p in produk:
+        with open ("database_produk.txt", "a") as file:
+            file.write(f"Produk : {p['nama']} -- Rp{p['harga']}|| Stok: {p['stok']}\n")
+
+def bacadatabase_toko(produk):
+    with open (produk, "r") as file:
+        file.read()
+    
 def cek_stok(produk):
     for p in produk:
-        if p['stok'] < 10:
+        if p['Stok'] < 10:
             print(F"{p['Produk']} tersisa {p['Stok']} item, mohon dipesan stok tambahan")
         elif p['stok']< 5:
             print(F"{p['Produk']} tersisa {p['Stok']} item, segera pesan stock tambahan")
         else:
             print(F"{p['Produk']} masih {p['Stok']} item, aman ae")
+
+######################################################################################
+                                # menu section
 
 def menu():
     produk = []
@@ -79,13 +83,12 @@ def menu():
         pilihan = input("Pilih Menu: ")
 
         if pilihan == "1":
-            bacadaftar_produk(produk)
+            bacadaftar_produk("daftarProduk.txt")
         elif pilihan == "2":
-            cek = bacadaftar_produk(produk)
-            cek_stok(cek)
+            pass
         elif pilihan == "3":
             edit_produk(produk)
-            bacadaftar_produk(produk)
+            tulisdatabase_toko(produk)
             tulis_daftar(produk)
         elif pilihan == "4":
             print("==== SETTING ====")
@@ -112,13 +115,14 @@ def menu():
 def data_pw(datapw):
     with open(datapw, "r") as file:
         for isi in file:
-            pw = isi.split(" -- ")[0].replace("paswordLogin: ", "")
+            pw = isi.split(" : ")[0].replace("passwordLogin: ", "")
         return pw
     
 def login(password):
     data = data_pw("datapw.txt")
     if data == password:
-        menu()
+        masuk = menu()
+        return masuk
     else:
         print("Wer bist du, Eindringling??")
 ####################################################################################
