@@ -14,7 +14,10 @@ def setting (password):
 
 def data_password(password):
     with open ("datapw.txt", "w") as file:
-        file.write(f"Password: {password}")
+        file.write(f"passwordLogin: {password}")
+
+######################################################################################
+                                # produk section5
 
 def tulis_daftar(produk):
     daftar_produk = set()
@@ -89,8 +92,9 @@ def menu():
             print("A. Ganti password")
             x = input(" ")
             if x == "A":
-                password = input("password baru ")
-                setting(password)
+                password_Baru = input("password baru ")
+                setting(password_Baru)
+                data_password(password_Baru)
         elif pilihan == "5":
             print("log Out?")
             opsi = input("y/n ")
@@ -99,14 +103,29 @@ def menu():
             elif opsi == "n":
                 pass
             else:
-                print("????")
+                print("????\n")
         else:
             print("invalid input")
 
 ####################################################################################
-                                # setting section
-
+                                # login section
+def data_pw(datapw):
+    with open(datapw, "r") as file:
+        for isi in file:
+            pw = isi.split(" -- ")[0].replace("paswordLogin: ", "")
+        return pw
+    
+def login(password):
+    data = data_pw("datapw.txt")
+    if data == password:
+        menu()
+    else:
+        print("Wer bist du, Eindringling??")
 ####################################################################################
                                 # main section
 
-menu()
+def main():
+    password = input("masukan password login: ")
+    login(password)
+
+main()
