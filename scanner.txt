@@ -1,1 +1,0 @@
-port: 135 hasil: Port 135 TERBUKA
