@@ -1,4 +1,23 @@
 ######################################################################################
+                                # encryptioan section
+
+def enkripsi(password, geser):
+    hasil= ""
+    for i in password:
+        if i.isupper():
+            posisi = ord(i) - 65
+            posisi_geser = (posisi + geser) % 26
+            huruf_baru = chr(posisi_geser + 65)
+        elif i.islower():
+            posisi = ord(i) - 97
+            posisi_geser = (posisi + geser) % 26
+            huruf_baru = chr(posisi_geser + 97)
+        else:
+                huruf_baru = i
+        hasil = hasil + huruf_baru
+    return hasil
+
+######################################################################################
                                 # setting section
 
 def setting (password):
@@ -122,7 +141,9 @@ def menu():
                 password_Baru = input("password baru ")
                 valid = setting(password_Baru)
                 if valid:
-                    data_password(password_Baru)
+                    hide = enkripsi(password_Baru, 9)
+                    data_password(hide)
+                    
         elif pilihan == "5":
             print("log Out?")
             opsi = input("y/n ")
@@ -145,8 +166,9 @@ def data_pw(datapw):
         return pw
     
 def login(password):
+    sembunyikan = enkripsi(password, 9)
     data = data_pw("datapw.txt")
-    if data == password:
+    if sembunyikan == data:
         masuk = menu()
         return masuk
     else:
@@ -157,5 +179,6 @@ def login(password):
 def main():
     password = input("masukan password login: ")
     login(password)
+
 
 main()
