@@ -1,1 +1,3 @@
 Produk : tv -- Rp4000000
+Produk : lemari -- Rp500000
+Produk : laptop -- Rp19000000

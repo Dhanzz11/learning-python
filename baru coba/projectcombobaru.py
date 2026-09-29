@@ -1,3 +1,4 @@
+from getpass import getpass
 ######################################################################################
                                 # encryptioan section
 
@@ -70,9 +71,20 @@ def bacadaftar_produk(produk):
 
 
 def tulisdatastok(produk):
-    for p in produk:
-        with open ("datastokk.txt", "a") as file:
-            file.write(f"Produk : {p['Produk']} -- Rp{p['harga']}|| Stok: {p['Stok']}\n")
+    daftar_produk = set()
+    try:
+        with open("datastok.txt", "r") as file:
+            for baris in file:
+                nama = baris.split(" -- ")[0].replace("Produk : ", "")
+                daftar_produk.add(nama)
+    except FileNotFoundError:
+        pass
+    
+    with open("datastok.txt", "a") as file:
+        for p in produk:
+            if p["Produk"] not in daftar_produk:
+                file.write(f"Produk : {p['Produk']} -- Rp{p['harga']} || Stok : {p['Stok']}\n")
+                daftar_produk.add(p['Produk'])
             
 ######################################################################################
                                 # cek stok section
@@ -84,8 +96,8 @@ def bacastok(nama_file):
             baris = baris.strip()
             nama = baris.split(" -- ")[0].replace("Produk : ", "")
             sisa = baris.split(" -- ")[1] 
-            harga = int(sisa.split("|| Stok: ")[0].replace("Rp", ""))
-            stok = int(sisa.split("|| Stok: ")[1])
+            harga = int(sisa.split("|| Stok : ")[0].replace("Rp", ""))
+            stok = int(sisa.split("|| Stok : ")[1])
             
             produk_baru = {"Produk": nama, "harga": harga, "Stok": stok}
             daftar_stok.append(produk_baru)
@@ -93,12 +105,12 @@ def bacastok(nama_file):
     
 def cek_stok(produk):
     for p in produk:
-        if p['Stok'] < 10:
-            print(F"{p['Produk']} tersisa {p['Stok']} item, mohon dipesan stok tambahan\n")
-        elif p['stok']< 5:
-            print(F"{p['Produk']} tersisa {p['Stok']} item, segera pesan stock tambahan\n")
+        if p['Stok'] <= 5:
+            print(F"\n{p['Produk']} tersisa {p['Stok']} item, mohon dipesan stok tambahan")
+        elif p['Stok'] <= 10:
+            print(F"\n{p['Produk']} tersisa {p['Stok']} item, jaga-jaga pesan stok tambahan")
         else:
-            print(F"{p['Produk']} masih {p['Stok']} item, aman ae\n")
+            print(F"\n{p['Produk']} masih {p['Stok']} item, aman ae\n")
 
 ######################################################################################
                                 # database section
@@ -131,14 +143,14 @@ def menu():
         elif pilihan == "3":
             edit_produk(produk)
             tulisdatabase_toko(produk)
-            tulisdatastok
+            tulisdatastok(produk)
             tulis_daftar(produk)
         elif pilihan == "4":
             print("==== SETTING ====")
             print("A. Ganti password")
             x = input(" ")
             if x == "A":
-                password_Baru = input("password baru ")
+                password_Baru = getpass("password baru ")
                 valid = setting(password_Baru)
                 if valid:
                     hide = enkripsi(password_Baru, 9)
@@ -177,7 +189,7 @@ def login(password):
                                 # main section
 
 def main():
-    password = input("masukan password login: ")
+    password = getpass("masukan password login: ")
     login(password)
 
 

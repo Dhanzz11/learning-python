@@ -1,3 +1,5 @@
+from getpass import getpass
+
 def enkripsi(password, geser):
     hasil= ""
     for i in password:
@@ -25,7 +27,7 @@ def hasilen(passen):
         return pw
 
 def main():
-    password= input("Masukan Password: ")
+    password= getpass("Masukan Password: ")
     geser = 9
     sembunyikan = enkripsi(password, geser)
     #lagi1 = enkripsi(sembunyikan, geser)
