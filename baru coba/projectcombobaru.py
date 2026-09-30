@@ -109,11 +109,11 @@ def bacastok(nama_file):
 def cek_stok(produk):
     for p in produk:
         if p['Stok'] <= 5:
-            print(F"\n{p['Produk']} tersisa {p['Stok']} item, mohon dipesan stok tambahan")
+            print(F"{p['Produk']} tersisa {p['Stok']} item, mohon dipesan stok tambahan")
         elif p['Stok'] <= 10:
-            print(F"\n{p['Produk']} tersisa {p['Stok']} item, jaga-jaga pesan stok tambahan")
+            print(F"{p['Produk']} tersisa {p['Stok']} item, jaga-jaga pesan stok tambahan")
         else:
-            print(F"\n{p['Produk']} masih {p['Stok']} item, aman ae\n")
+            print(F"{p['Produk']} masih {p['Stok']} item, aman ae")
 
 ######################################################################################
                                 # -- database section
@@ -220,7 +220,7 @@ def menu():
     produk = []
 
     while True:
-        print("==== MENU ====")
+        print("\n==== MENU ====")
         print("1. lihat daftar produk")
         print("2. cek stok produk")
         print("3. edit isi produk")
@@ -302,8 +302,16 @@ def main():
             if siapa == "k":
                 password = getpass("masukan password login: ")
                 login(password)
+                break
             elif siapa == "p":
-                pass
-
+                member = input("\nmember atau bukan? (y/n) ")
+                if member == "y":
+                    pass
+                elif member == "n":
+                    break
+                else:
+                    print("invalid input")
+            else:
+                print("invalid input")
 
 main()

@@ -5,3 +5,4 @@ Produk : mouse -- Rp200000
 Produk : Gitar -- Rp2000000
 Produk : kipas -- Rp300000
 Produk : pensil -- Rp2000
+Produk : dompet -- Rp40000
