@@ -1,3 +1,8 @@
 Produk : tv -- Rp4000000
 Produk : lemari -- Rp500000
 Produk : laptop -- Rp19000000
+Produk : mouse -- Rp200000
+Produk : kipas -- Rp300000
+Produk : Gitar -- Rp2000000
+Produk : pensil -- Rp2000
+Produk : pod -- Rp330000

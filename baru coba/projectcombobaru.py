@@ -1,6 +1,6 @@
 from getpass import getpass
 ######################################################################################
-                                # encryptioan section
+                                # {S} encryptioan section
 
 def enkripsi(password, geser):
     hasil= ""
@@ -19,7 +19,7 @@ def enkripsi(password, geser):
     return hasil
 
 ######################################################################################
-                                # setting section
+                                # 04 setting section
 
 def setting (password):
     kriteria1 = len(password) == 8
@@ -39,7 +39,15 @@ def data_password(password):
         file.write(f"passwordLogin: {password}")
 
 ######################################################################################
-                                # opsi 3 section
+                                # 01 daftar section
+
+def bacadaftar_produk(produk):
+    with open (produk , "r") as file:
+       daftar = file.read()
+       print(daftar)
+
+######################################################################################
+                                # c1 opsi 3.A section
 
 def edit_produk(produk):
     nama = input("Produk tambahan: ")
@@ -64,11 +72,6 @@ def tulis_daftar(produk):
                 file.write(f"Produk : {p['Produk']} -- Rp{p['harga']}\n")
                 daftar_produk.add(p['Produk'])
 
-def bacadaftar_produk(produk):
-    with open (produk , "r") as file:
-       daftar = file.read()
-       print(daftar)
-
 
 def tulisdatastok(produk):
     daftar_produk = set()
@@ -86,8 +89,8 @@ def tulisdatastok(produk):
                 file.write(f"Produk : {p['Produk']} -- Rp{p['harga']} || Stok : {p['Stok']}\n")
                 daftar_produk.add(p['Produk'])
             
-######################################################################################
-                                # cek stok section
+#######################################################################################
+                                # 02 cek stok section
 
 def bacastok(nama_file):
     daftar_stok = []
@@ -113,15 +116,67 @@ def cek_stok(produk):
             print(F"\n{p['Produk']} masih {p['Stok']} item, aman ae\n")
 
 ######################################################################################
-                                # database section
+                                # -- database section
 
 def tulisdatabase_toko(produk):
     for p in produk:
         with open ("database_produk.txt", "a") as file:
-            file.write(f" log ==> Produk : {p['Produk']} -- Rp{p['harga']}|| Stok: {p['Stok']}\n")
+            file.write(f" barang baru ==> Produk : {p['Produk']} -- Rp{p['harga']}|| Stok: {p['Stok']}\n")
+
+def log_perubahan(nama_produk, field, nilai_lama, nilai_baru):
+    with open("database_produk.txt", "a") as file:
+        file.write(f"{nama_produk}: {field} diubah dari {nilai_lama} jadi {nilai_baru}\n")
 
 ######################################################################################
-                                # menu section
+                                # c2 opsi 3.B section
+
+def cari_produk(produk, nama_cari):
+    for p in produk:
+        if p["Produk"] == nama_cari:
+            return p
+    return None
+
+def edit_stok(produk):
+    nama_cari = input("Nama produk yang mau diedit: ")
+    p = cari_produk(produk, nama_cari)
+    
+    if p is None:
+        print("Produk tidak ditemukan!")
+        return
+    
+    stok_lama = p["Stok"]
+    stok_baru = int(input("Stok baru: "))
+    p["Stok"] = stok_baru
+    
+    try:
+        daftar_stok = set()
+        with open("datastok.txt", "r") as file:
+                for baris in file:
+                    baris = baris.strip()
+                    nama = baris.split(" -- ")[0].replace("Produk : ", "")
+                    sisa = baris.split(" -- ")[1] 
+                    harga = int(sisa.split("|| Stok : ")[0].replace("Rp", ""))
+                    stok = int(sisa.split("|| Stok : ")[1])
+                    daftar_stok.add(stok)
+    except FileNotFoundError:
+        pass
+
+    with open("datastok.txt", "w") as file:
+        for p  in produk:
+            if p["Stok"] not in produk:
+                file.write(f"Produk : {p['Produk']} -- Rp{p['harga']} || Stok : {p['Stok']}\n")
+                daftar_stok.add(p['Stok'])
+
+    log_perubahan(nama_cari, "Stok", stok_lama, stok_baru)
+
+
+######################################################################################
+                                # c3 opsi 3.C section
+
+
+
+######################################################################################
+                                # i menu section
 
 def menu():
     produk = []
@@ -141,20 +196,34 @@ def menu():
             cek = bacastok("datastok.txt")
             cek_stok(cek)
         elif pilihan == "3":
-            edit_produk(produk)
-            tulisdatabase_toko(produk)
-            tulisdatastok(produk)
-            tulis_daftar(produk)
+            option = input( "A. Tambah Produk"
+                            "\nB. Edit Stok"
+                            "\nC. Edit Harga"
+                            "   ")
+            if option == "A":
+                edit_produk(produk)
+                tulisdatastok(produk)
+                tulis_daftar(produk)
+                tulisdatabase_toko(produk)
+            elif option == "B":
+                data = bacastok("datastok.txt")
+                edit_stok(data)
+            elif option == "C":
+                pass
+
         elif pilihan == "4":
             print("==== SETTING ====")
-            print("A. Ganti password")
-            x = input(" ")
+            print("A. Ganti password\n"
+                  "B. Ganti Akun")
+            x = input("\n ")
             if x == "A":
                 password_Baru = getpass("password baru ")
                 valid = setting(password_Baru)
                 if valid:
                     hide = enkripsi(password_Baru, 9)
                     data_password(hide)
+            elif x == "B":
+                pass
                     
         elif pilihan == "5":
             print("log Out?")
@@ -185,7 +254,7 @@ def login(password):
         return masuk
     else:
         print("Wer bist du, Eindringling??")
-####################################################################################
+##################################l##################################################
                                 # main section
 
 def main():
