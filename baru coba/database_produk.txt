@@ -1,1 +1,22 @@
-Produk : tv -- Rp4000000|| Stok: 5
+ log ==> Produk : tv -- Rp4000000|| Stok: 10
+ log ==> Produk : tv -- Rp4000000|| Stok: 10
+ log ==> Produk : lemari -- Rp500000|| Stok: 7
+ log ==> Produk : tv -- Rp4000000|| Stok: 10
+ log ==> Produk : lemari -- Rp500000|| Stok: 7
+ log ==> Produk : laptop -- Rp19000000|| Stok: 20
+mouse: Stok diubah dari 13 jadi 10
+kipas: Stok diubah dari 100 jadi 20
+Gitar: Stok diubah dari 4 jadi 15
+pensil: Stok diubah dari 100 jadi 15
+tv: Stok diubah dari 10 jadi 16
+tv: Stok diubah dari 10 jadi 30
+tv: Stok diubah dari 30 jadi 6
+tv: Stok diubah dari 6 jadi 7
+tv: Stok diubah dari 7 jadi 5
+ log ==> Produk : pod -- Rp330000|| Stok: 12
+tv: Stok diubah dari 10 jadi 40
+tv: harga diubah dari 4000000 jadi 5000000
+tv: harga diubah dari 5000000 jadi 4000000
+tv: harga diubah dari 4000000 jadi 10000000
+ barang baru ==> Produk : dompet -- Rp4000|| Stok: 40
+dompet: harga diubah dari 4000 jadi 40000
