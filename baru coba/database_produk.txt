@@ -14,3 +14,7 @@ tv: Stok diubah dari 30 jadi 6
 tv: Stok diubah dari 6 jadi 7
 tv: Stok diubah dari 7 jadi 5
  log ==> Produk : pod -- Rp330000|| Stok: 12
+tv: Stok diubah dari 10 jadi 40
+tv: harga diubah dari 4000000 jadi 5000000
+tv: harga diubah dari 5000000 jadi 4000000
+tv: harga diubah dari 4000000 jadi 10000000
