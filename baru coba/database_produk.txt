@@ -20,3 +20,5 @@ tv: harga diubah dari 5000000 jadi 4000000
 tv: harga diubah dari 4000000 jadi 10000000
  barang baru ==> Produk : dompet -- Rp4000|| Stok: 40
 dompet: harga diubah dari 4000 jadi 40000
+lemari: Stok diubah dari 7 jadi 15
+Gitar: Stok diubah dari 4 jadi 11

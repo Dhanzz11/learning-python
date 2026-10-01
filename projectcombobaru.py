@@ -109,11 +109,11 @@ def bacastok(nama_file):
 def cek_stok(produk):
     for p in produk:
         if p['Stok'] <= 5:
-            print(F"{p['Produk']} tersisa {p['Stok']} item, mohon dipesan stok tambahan")
+            print(F"\n{p['Produk']} tersisa {p['Stok']} item, mohon dipesan stok tambahan")
         elif p['Stok'] <= 10:
-            print(F"{p['Produk']} tersisa {p['Stok']} item, jaga-jaga pesan stok tambahan")
+            print(F"\n{p['Produk']} tersisa {p['Stok']} item, jaga-jaga pesan stok tambahan")
         else:
-            print(F"{p['Produk']} masih {p['Stok']} item, aman ae")
+            print(F"\n{p['Produk']} masih {p['Stok']} item, aman ae\n")
 
 ######################################################################################
                                 # -- database section
@@ -173,54 +173,16 @@ def edit_stok(produk):
 ######################################################################################
                                 # c3 opsi 3.C section
 
-def edit_harga(produk):
-    nama_cari = input("Nama produk yang mau diedit: ")
-    p = cari_produk(produk, nama_cari)
-    
-    if p is None:
-        print("Produk tidak ditemukan!")
-        return
-    
-    harga_lama = p["harga"]
-    harga_baru = int(input("harga baru: "))
-    p["harga"] = harga_baru
-    
-    try:
-        daftar_harga = set()
-        daftar_harga2 = set()
-        with open("datastok.txt", "r") as file:
-                for baris in file:
-                    baris = baris.strip()
-                    nama = baris.split(" -- ")[0].replace("Produk : ", "")
-                    sisa = baris.split(" -- ")[1] 
-                    harga = int(sisa.split("|| Stok : ")[0].replace("Rp", ""))
-                    stok = int(sisa.split("|| Stok : ")[1])
-                    daftar_harga.add(harga)
-    except FileNotFoundError:
-        pass
 
-    with open("datastok.txt", "w") as file:
-        for p  in produk:
-            if p["harga"] not in produk:
-                file.write(f"Produk : {p['Produk']} -- Rp{p['harga']} || Stok : {p['Stok']}\n")
-                daftar_harga.add(p['harga'])
-
-    with open ("daftarProduk.txt", "w") as file:
-        for p in produk:
-            if p["harga"] not in produk:
-                file.write(f"Produk : {p['Produk']} -- Rp{p['harga']}\n")
-                daftar_harga2.add(p['harga'])
-
-    log_perubahan(nama_cari, "harga", harga_lama, harga_baru)
 
 ######################################################################################
-                                # menu section
+                                # i menu section
 
-def menu_k():
+def menu():
     produk = []
 
     while True:
-        print("\n==== MENU ====")
+        print("==== MENU ====")
         print("1. lihat daftar produk")
         print("2. cek stok produk")
         print("3. edit isi produk")
@@ -237,7 +199,7 @@ def menu_k():
             option = input( "A. Tambah Produk"
                             "\nB. Edit Stok"
                             "\nC. Edit Harga"
-                            "\n ")
+                            "   ")
             if option == "A":
                 edit_produk(produk)
                 tulisdatastok(produk)
@@ -247,8 +209,7 @@ def menu_k():
                 data = bacastok("datastok.txt")
                 edit_stok(data)
             elif option == "C":
-                dh = bacastok("datastok.txt")
-                edit_harga(dh)
+                pass
 
         elif pilihan == "4":
             print("==== SETTING ====")
@@ -289,7 +250,7 @@ def login(password):
     sembunyikan = enkripsi(password, 9)
     data = data_pw("datapw.txt")
     if sembunyikan == data:
-        masuk = menu_k()
+        masuk = menu()
         return masuk
     else:
         print("Wer bist du, Eindringling??")
@@ -297,8 +258,8 @@ def login(password):
                                 # main section
 
 def main():
-    
     password = getpass("masukan password login: ")
     login(password)
-                
+
+
 main()
