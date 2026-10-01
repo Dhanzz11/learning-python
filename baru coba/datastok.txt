@@ -1,0 +1,8 @@
+Produk : tv -- Rp10000000 || Stok : 40
+Produk : lemari -- Rp500000 || Stok : 15
+Produk : laptop -- Rp19000000 || Stok : 20
+Produk : mouse -- Rp200000 || Stok : 13
+Produk : Gitar -- Rp2000000 || Stok : 11
+Produk : kipas -- Rp300000 || Stok : 100
+Produk : pensil -- Rp2000 || Stok : 100
+Produk : dompet -- Rp40000 || Stok : 40
