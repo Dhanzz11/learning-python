@@ -216,7 +216,7 @@ def edit_harga(produk):
 ######################################################################################
                                 # menu section
 
-def menu_k():
+def menu():
     produk = []
 
     while True:
@@ -256,12 +256,15 @@ def menu_k():
                   "B. Ganti Akun")
             x = input("\n ")
             if x == "A":
-                password_Baru = getpass("password baru ")
-                valid = setting(password_Baru)
-                if valid:
-                    hide = enkripsi(password_Baru, 9)
-                    data_password(hide)
+                #password_Baru = getpass("password baru ")
+                #valid = setting(password_Baru)
+                #if valid:
+                    #hide = enkripsi(password_Baru, 9)
+                    #data_password(hide)
+                print("sedang maintanace")
+                pass
             elif x == "B":
+                print("sedang maintanace")
                 pass
                     
         elif pilihan == "5":
@@ -279,26 +282,74 @@ def menu_k():
 ####################################################################################
                                 # login section
 
-def data_pw(datapw):
-    with open(datapw, "r") as file:
-        for isi in file:
-            pw = isi.split(" : ")[0].replace("passwordLogin: ", "")
-        return pw
+def cari_akun(daftar, unc):
+    for x in daftar:
+        if x["username"] == unc:
+            return x
+    return None
+
+def baca_akun(nama_file):
+    daftar_akun = []
+    try:
+        with open(nama_file, "r") as file:
+            for baris in file:
+                baris = baris.strip()
+                if " || " in baris:
+                    bagian = baris.split(" || ")
+                    username = bagian[0].replace("username: ", "")
+                    password = bagian[1].replace("passwordLogin: ", "")
+                    daftar_akun.append({"username": username, "passwordLogin": password})
+    except FileNotFoundError:
+        pass
+    return daftar_akun
+
+def regris_akun(namafile):
+    daftar = baca_akun(namafile)
+
+    while True:
+        username_baru = input("username akun: ")
+        username_ada = False
+        for p in daftar:
+            if p["username"] == username_baru:
+                username_ada = True
+
+        if username_ada:
+            print("username sudah dipakai")
+        else:
+            break
+
+    while True:
+        password_akun_baru = getpass("password akun baru: ")
+        sembunyikan = enkripsi(password_akun_baru, 9)
+        valid = setting(password_akun_baru)
+        if valid:
+            break
+
+    with open(namafile, "a") as file:
+        file.write(f"username: {username_baru} || passwordLogin: {sembunyikan}\n")
+    print("Akun berhasil dibuat!")
     
-def login(password):
-    sembunyikan = enkripsi(password, 9)
-    data = data_pw("datapw.txt")
-    if sembunyikan == data:
-        masuk = menu_k()
-        return masuk
-    else:
-        print("Wer bist du, Eindringling??")
 ##################################l##################################################
                                 # main section
 
 def main():
-    
-    password = getpass("masukan password login: ")
-    login(password)
+    while True:
+        un = input("Masukan username: ")
+        daftar = baca_akun("datapwe.txt")
+        akunfind = cari_akun(daftar, un)
+        
+        if akunfind is None:
+            print("Username tidak ditemukan, silahkan buat akun.")
+            regris_akun("datapw.txt")
+        else:
+            pw = getpass("Masukan password: ")
+            sembunyikan = enkripsi(pw, 9)
+
+            if sembunyikan == akunfind["passwordLogin"]:
+                print("Login berhasil!")
+                menu()
+                break
+            else:
+                print("Password salah!")
                 
 main()

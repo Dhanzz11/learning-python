@@ -1,4 +1,4 @@
-Produk : tv -- Rp4000000 || Stok : 23
+Produk : tv -- Rp4000000 || Stok : 7
 Produk : lemari -- Rp500000 || Stok : 7
 Produk : laptop -- Rp19000000 || Stok : 20
 Produk : mouse -- Rp200000 || Stok : 13

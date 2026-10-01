@@ -1,2 +1,3 @@
 tv: Stok diubah dari 5 jadi 4
 tv: Stok diubah dari 4 jadi 23
+tv: Stok diubah dari 23 jadi 7
