@@ -216,7 +216,7 @@ def edit_harga(produk):
 ######################################################################################
                                 # menu section
 
-def menu():
+def menu_k():
     produk = []
 
     while True:
@@ -289,7 +289,7 @@ def login(password):
     sembunyikan = enkripsi(password, 9)
     data = data_pw("datapw.txt")
     if sembunyikan == data:
-        masuk = menu()
+        masuk = menu_k()
         return masuk
     else:
         print("Wer bist du, Eindringling??")
@@ -297,21 +297,8 @@ def login(password):
                                 # main section
 
 def main():
-    while True:
-            siapa = input("karyawan atau pembeli? (k/p)")
-            if siapa == "k":
-                password = getpass("masukan password login: ")
-                login(password)
-                break
-            elif siapa == "p":
-                member = input("\nmember atau bukan? (y/n) ")
-                if member == "y":
-                    pass
-                elif member == "n":
-                    break
-                else:
-                    print("invalid input")
-            else:
-                print("invalid input")
-
+    
+    password = getpass("masukan password login: ")
+    login(password)
+                
 main()
