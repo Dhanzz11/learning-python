@@ -21,6 +21,17 @@ def enkripsi(password, geser):
 ######################################################################################
                                 # 04 setting section
 
+def ganti_password(nama_file, username, password_baru):
+    sembunyikan = enkripsi(password_baru, 9)
+    daftar = baca_akun(nama_file)
+    
+    with open(nama_file, "w") as file:
+        for akun in daftar:
+            if akun["username"] == username:
+                file.write(f"username: {akun['username']} || passwordLogin: {sembunyikan}\n")
+            else:
+                file.write(f"username: {akun['username']} || passwordLogin: {akun['passwordLogin']}\n")
+
 def setting (password):
     kriteria1 = len(password) == 8
     kriteria2 = any(c.isupper() for c in password)
@@ -216,7 +227,7 @@ def edit_harga(produk):
 ######################################################################################
                                 # menu section
 
-def menu():
+def menu(username):
     produk = []
 
     while True:
@@ -256,12 +267,10 @@ def menu():
                   "B. Ganti Akun")
             x = input("\n ")
             if x == "A":
-                #password_Baru = getpass("password baru ")
-                #valid = setting(password_Baru)
-                #if valid:
-                    #hide = enkripsi(password_Baru, 9)
-                    #data_password(hide)
-                print("sedang maintanace")
+                password_Baru = getpass("password baru ")
+                valid = setting(password_Baru)
+                if valid:
+                    ganti_password("datapw.txt", username, password_Baru)
                 pass
             elif x == "B":
                 print("sedang maintanace")
@@ -335,7 +344,7 @@ def regris_akun(namafile):
 def main():
     while True:
         un = input("Masukan username: ")
-        daftar = baca_akun("datapwe.txt")
+        daftar = baca_akun("datapw.txt")
         akunfind = cari_akun(daftar, un)
         
         if akunfind is None:
@@ -346,8 +355,7 @@ def main():
             sembunyikan = enkripsi(pw, 9)
 
             if sembunyikan == akunfind["passwordLogin"]:
-                print("Login berhasil!")
-                menu()
+                menu(akunfind["username"])
                 break
             else:
                 print("Password salah!")
