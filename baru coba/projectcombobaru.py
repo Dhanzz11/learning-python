@@ -44,10 +44,6 @@ def setting (password):
     else:
         print("silahkan penuhi kriteria ini (password harus memiliki 8 karakter, huruf besar dan huruf kecil)")
         return False
-    
-def data_password(password):
-    with open ("datapw.txt", "w") as file:
-        file.write(f"passwordLogin: {password}")
 
 ######################################################################################
                                 # 01 daftar section
@@ -289,7 +285,7 @@ def menu(username):
             print("invalid input")
 
 ####################################################################################
-                                # login section
+                               # login section
 
 def cari_akun(daftar, unc):
     for x in daftar:
