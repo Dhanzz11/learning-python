@@ -37,6 +37,13 @@ def nama_Protocol(angka):
         6:"TCP", 
         17:"UDP"}
     return protcl.get(int(angka), "???")
+
+def waktu(mikro):
+    second = 1000000
+    flowDuration = float(mikro)
+    convertToSec = flowDuration/second
+    time = round(convertToSec)
+    return time
     
 def main():
     with open("enp0s3-pvt-wednesday.pcap_Flow.csv", "r", newline="") as file:
@@ -46,7 +53,9 @@ def main():
             tujuan = jenis_Ip(x["Dst IP"])
             layanan = nama_Layanan(x["Dst Port"])
             cara = nama_Protocol(x["Protocol"])
-            print(nomor, sumber, "->", tujuan,"menggunakan layanan:",layanan,"dengan protocol:",cara)
+            waktuInteraksi = waktu(x["Flow Duration"])
+            print(nomor, sumber, "->", f"{tujuan} mengguanakan layanan:{layanan}" 
+                  f"dengan protocol:{cara}, waktu interaksi:{waktuInteraksi} detik")
             if nomor == 5:
                 break
 
