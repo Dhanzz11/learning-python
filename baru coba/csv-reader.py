@@ -44,15 +44,27 @@ def waktu(mikro):
     second = 1000000
     milsec = 1000
     flowDuration = float(mikro)
-    if len(mikro)<=3:
+    if flowDuration < second:
         convertToSec = flowDuration/milsec
-        time = round(convertToSec)
+        time = round(convertToSec, 3)
         tipeTime = "Milidetik"
     else:
         convertToSec = flowDuration/second
-        time = round(convertToSec)
+        time = round(convertToSec, 3)
         tipeTime = "Detik"
     return f"{time} {tipeTime}"
+
+def banyak_Data(byte):
+    angka = float(byte)
+    KB = 1_000
+    MB = 1_000_000
+    if angka < KB:
+        return f"{round(angka)} Byte"
+    elif angka < MB:
+        return f"{round(angka/1000, 1)} KB"
+    else:
+        return f"{round(angka/1000000, 1)} MB"
+
     
 def main():
     with open("enp0s3-pvt-wednesday.pcap_Flow.csv", "r", newline="") as file:
@@ -60,11 +72,14 @@ def main():
         for nomor, x in enumerate(reader, start=1):
             sumber = jenis_Ip(x["Src IP"])
             tujuan = jenis_Ip(x["Dst IP"])
-            layanan = nama_Layanan(x["Dst Port"])
+            LAYANAN = nama_Layanan(x["Dst Port"])
             cara = nama_Protocol(x["Protocol"])
             waktuInteraksi = waktu(x["Flow Duration"])
-            print(nomor, sumber, "->" f"{tujuan} | mengguanakan layanan:{layanan} |" 
-                  f" dengan protocol:{cara} | waktu interaksi:{waktuInteraksi}")
+            dataDikirim = banyak_Data(x["Total Length of Fwd Packet"])
+            dataDiterima = banyak_Data(x["Total Length of Bwd Packet"])
+            print(nomor,sumber, "-> " f"{tujuan} | mengguanakan layanan: {LAYANAN} |\n" 
+                  f" dengan protocol: {cara} | waktu interaksi: {waktuInteraksi} |\n"
+                  f" {dataDikirim} data dikirim | {dataDiterima} data diterima\n")
             if nomor == 5:
                 break
 
