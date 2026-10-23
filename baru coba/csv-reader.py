@@ -31,11 +31,22 @@ def jenis_Ip(ip):
         return "dalam"
     elif bagian1 == 172 and bagian2 >= 16 and bagian2 <= 31:
         return "dalam"
+    elif bagian1 == 0 or bagian1 == 255:
+        return "khusus"
+    elif 224 <= bagian1 <= 239:
+        return "khusus"
     else :
         return "luar"
 
-def nama_Layanan(port):
-    return layanan.get(int(port), "Port Sementara")
+def nama_Layanan(portdst, portsrc):
+    dst = int(portdst)
+    src = int(portsrc)
+    if dst in layanan:
+        return layanan.get(dst)
+    elif src in layanan:
+        return layanan.get(src)
+    else:
+        return "Port Sementara"
 
 def nama_Protocol(angka):
     return protcl.get(int(angka), "???")
@@ -61,25 +72,36 @@ def banyak_Data(byte):
     if angka < KB:
         return f"{round(angka)} Byte"
     elif angka < MB:
-        return f"{round(angka/1000, 1)} KB"
+        return f"{round(angka/KB, 1)} KB"
     else:
-        return f"{round(angka/1000000, 1)} MB"
+        return f"{round(angka/MB, 1)} MB"
 
+def kalimat(x):
+    bagian = x["Timestamp"].split(" ")
+    jam = bagian[1] + " " + bagian[2]
+
+    sumber = jenis_Ip(x["Src IP"])
+    tujuan = jenis_Ip(x["Dst IP"])
+    LAYANAN = nama_Layanan(x["Dst Port"], x["Src Port"])
+    cara = nama_Protocol(x["Protocol"])
+    waktuInteraksi = waktu(x["Flow Duration"])
+    dataDikirim = banyak_Data(x["Total Length of Fwd Packet"])
+    dataDiterima = banyak_Data(x["Total Length of Bwd Packet"])
+
+    kalimat = (f"{jam}, {x["Src IP"]} ({sumber}) mnghubungi {x["Dst IP"]} ({tujuan}), "
+               f"Melalui {LAYANAN} ({cara}), selama {waktuInteraksi},"
+               f"Mengirim {dataDikirim} dan menerima {dataDiterima}.")
+
+    if x["Stage"] != "Benign":
+        kalimat = kalimat + f"[{x["Activity"]} - {x["Stage"]}]"
+        
+    return kalimat
     
 def main():
     with open("enp0s3-pvt-wednesday.pcap_Flow.csv", "r", newline="") as file:
         reader = csv.DictReader(file)
-        for nomor, x in enumerate(reader, start=1):
-            sumber = jenis_Ip(x["Src IP"])
-            tujuan = jenis_Ip(x["Dst IP"])
-            LAYANAN = nama_Layanan(x["Dst Port"])
-            cara = nama_Protocol(x["Protocol"])
-            waktuInteraksi = waktu(x["Flow Duration"])
-            dataDikirim = banyak_Data(x["Total Length of Fwd Packet"])
-            dataDiterima = banyak_Data(x["Total Length of Bwd Packet"])
-            print(nomor,sumber, "-> " f"{tujuan} | mengguanakan layanan: {LAYANAN} |\n" 
-                  f" dengan protocol: {cara} | waktu interaksi: {waktuInteraksi} |\n"
-                  f" {dataDikirim} data dikirim | {dataDiterima} data diterima\n")
+        for nomor, y in enumerate(reader, start=1):
+            print(nomor, kalimat(y))
             if nomor == 5:
                 break
 
