@@ -88,21 +88,26 @@ def kalimat(x):
     dataDikirim = banyak_Data(x["Total Length of Fwd Packet"])
     dataDiterima = banyak_Data(x["Total Length of Bwd Packet"])
 
-    kalimat = (f"{jam}, {x["Src IP"]} ({sumber}) mnghubungi {x["Dst IP"]} ({tujuan}), "
-               f"Melalui {LAYANAN} ({cara}), selama {waktuInteraksi},"
+    kalimat = (f"{jam}, {x['Src IP']} ({sumber}) ===>> {x['Dst IP']} ({tujuan}), "
+               f"Melalui {LAYANAN} ({cara}), selama {waktuInteraksi}, "
                f"Mengirim {dataDikirim} dan menerima {dataDiterima}.")
 
     if x["Stage"] != "Benign":
-        kalimat = kalimat + f"[{x["Activity"]} - {x["Stage"]}]"
-        
+        kalimat = kalimat + f"[{x['Activity']} - {x['Stage']}]"
+
     return kalimat
-    
+
 def main():
+    hitung_Stage = {}
     with open("enp0s3-pvt-wednesday.pcap_Flow.csv", "r", newline="") as file:
-        reader = csv.DictReader(file)
-        for nomor, y in enumerate(reader, start=1):
-            print(nomor, kalimat(y))
-            if nomor == 5:
-                break
+        with open("skrip.txt", "w", encoding="utf-8") as skrip:
+            reader = csv.DictReader(file)
+            for nomor, y in enumerate(reader, start=1):
+                stage = y["Stage"]
+                hitung_Stage[stage] = hitung_Stage.get(stage, 0) + 1
+                if y["Stage"] != "Benign":
+                    skrip.write(f"{nomor} {kalimat(y)}\n")
+    for nama, jumlah in hitung_Stage.items():
+        print(nama, jumlah)
 
 main()
